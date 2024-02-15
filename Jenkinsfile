@@ -28,21 +28,21 @@ pipeline {
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred1', toolName: 'docker') {
                       sh 'docker build -t calendar .'
-                      sh 'docker tag calendar ari786/calendar:v3'
+                      sh 'docker tag calendar ari786/calendar:v4.0'
                     }
                 }
             }
         }
         stage('Trivy Image Scan') {
             steps {
-                sh 'trivy image ari786/calendar:v3 > trivy-calimage-scan.txt'
+                sh 'trivy image ari786/calendar:v4.0 > trivy-calimage-scan.txt'
             }
         }
         stage('Docker Push') {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred1', toolName: 'docker') {
-                      sh 'docker push ari786/calendar:v3'
+                      sh 'docker push ari786/calendar:v4.0'
                     }
                 }
             }

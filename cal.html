@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dynamic Calendar</title>
+<title>2024 Calendar</title>
 <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
+        background-color: #cb4e24;
     }
 
     .calendar {
         max-width: 800px;
         margin: 0 auto;
-        background-color: #fff;
+        background-color: #77abe7;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         padding: 20px;
@@ -23,10 +23,13 @@
         text-align: center;
         font-size: 24px;
         margin-bottom: 20px;
+        border-bottom: 2.5px solid #1b211b;
+        
     }
-
+    
     .month {
         margin-bottom: 20px;
+        margin-top: 20px;
     }
 
     .month-name {
@@ -34,14 +37,19 @@
         font-weight: bold;
         text-transform: uppercase;
         margin-bottom: 10px;
+        margin-top: 15px;
+        
     }
 
     .weekdays {
         display: flex;
         justify-content: space-between;
-        background-color: #a4874e;
+        background-color: #e3b331;
         padding: 10px;
         border-radius: 5px;
+        border-bottom: 1px solid #1b211b;
+        border-right: 1px solid #1b211b;
+        
     }
 
     .weekday {
@@ -58,19 +66,8 @@
     .day {
         padding: 10px;
         text-align: center;
-        border-bottom: 1px solid #ddd;
-        border-right: 1px solid #ddd;
-        cursor: pointer;
-    }
-
-    .day:hover {
-        background-color: #f9f9f9;
-    }
-
-    .current-day {
-        background-color: #007bff;
-        color: #fff;
-        border-radius: 50%;
+        border-bottom: 1px solid #1b211b;
+        border-right: 1px solid #1b211b;
     }
 </style>
 </head>
@@ -78,81 +75,54 @@
 
 <div class="calendar">
     <div class="calendar-header">
-        <div class="month">
-            <span id="prevMonth">&#10094;</span>
-            <span id="currentMonth"></span>
-            <span id="nextMonth">&#10095;</span>
-        </div>
+        <h2>2024 Calendar</h2>
     </div>
-    <div class="month">
-        <div class="month-name"></div>
-        <div class="weekdays">
-            <div class="weekday">Sun</div>
-            <div class="weekday">Mon</div>
-            <div class="weekday">Tue</div>
-            <div class="weekday">Wed</div>
-            <div class="weekday">Thu</div>
-            <div class="weekday">Fri</div>
-            <div class="weekday">Sat</div>
-        </div>
-        <div class="days" id="calendarDays"></div>
-    </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const currentDate = new Date();
-        const currentMonth = currentDate.getMonth();
-        const currentYear = currentDate.getFullYear();
-        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        const calendarDays = document.getElementById('calendarDays');
-        const currentMonthElement = document.getElementById('currentMonth');
+    <script>
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
 
-        displayCalendar(currentMonth, currentYear);
+        const daysInMonth = [
+            31, 29, 31, 30, 31, 30,
+            31, 31, 30, 31, 30, 31
+        ];
 
-        function displayCalendar(month, year) {
-            currentMonthElement.textContent = months[month] + ' ' + year;
-            calendarDays.innerHTML = '';
+        document.write('<div class="month">');
 
-            const firstDayOfMonth = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
+        for (let i = 0; i < months.length; i++) {
+            document.write('<div>');
+            document.write('<div class="month-name">' + months[i] + '</div>');
+            document.write('<div class="weekdays">');
+            document.write('<div class="weekday">Sun</div>');
+            document.write('<div class="weekday">Mon</div>');
+            document.write('<div class="weekday">Tue</div>');
+            document.write('<div class="weekday">Wed</div>');
+            document.write('<div class="weekday">Thu</div>');
+            document.write('<div class="weekday">Fri</div>');
+            document.write('<div class="weekday">Sat</div>');
+            document.write('</div>');
+            document.write('<div class="days">');
 
-            for (let i = 0; i < firstDayOfMonth; i++) {
-                const emptyDay = document.createElement('div');
-                emptyDay.className = 'day';
-                calendarDays.appendChild(emptyDay);
+            const firstDay = new Date(2024, i, 1).getDay();
+            const totalDays = daysInMonth[i];
+
+            for (let j = 0; j < firstDay; j++) {
+                document.write('<div class="day"></div>');
             }
 
-            for (let i = 1; i <= daysInMonth; i++) {
-                const day = document.createElement('div');
-                day.className = 'day';
-                day.textContent = i;
-                if (year === currentDate.getFullYear() && month === currentDate.getMonth() && i === currentDate.getDate()) {
-                    day.classList.add('current-day');
-                }
-                calendarDays.appendChild(day);
+            for (let j = 1; j <= totalDays; j++) {
+                document.write('<div class="day">' + j + '</div>');
             }
+
+            document.write('</div>');
+            document.write('</div>');
         }
 
-        document.getElementById('prevMonth').addEventListener('click', function () {
-            currentMonth--;
-            if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
-            }
-            displayCalendar(currentMonth, currentYear);
-        });
-
-        document.getElementById('nextMonth').addEventListener('click', function () {
-            currentMonth++;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            }
-            displayCalendar(currentMonth, currentYear);
-        });
-    });
-</script>
+        document.write('</div>');
+    </script>
+</div>
 
 </body>
 </html>
