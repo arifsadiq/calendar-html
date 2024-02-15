@@ -1,86 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar 2024</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f2f2f2;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2014 Advanced Calendar</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+    }
 
-        .calendar {
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    .calendar {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
 
-        .month {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
+    .calendar-header {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
 
-        .days {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            text-align: center;
-        }
+    .month {
+        margin-bottom: 20px;
+    }
 
-        .day {
-            padding: 10px;
-            border: 1px solid #ccc;
-        }
-    </style>
+    .month-name {
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .weekdays {
+        display: flex;
+        justify-content: space-between;
+        background-color: #f2f2f2;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .weekday {
+        flex: 1;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .day {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        cursor: pointer;
+    }
+
+    .day:hover {
+        background-color: #f9f9f9;
+    }
+
+    .month1 { background-color: #f44336; }
+    .month2 { background-color: #2196F3; }
+    .month3 { background-color: #4CAF50; }
+    .month4 { background-color: #FFEB3B; }
+    .month5 { background-color: #FF9800; }
+    .month6 { background-color: #9C27B0; }
+    .month7 { background-color: #00BCD4; }
+    .month8 { background-color: #8BC34A; }
+    .month9 { background-color: #795548; }
+    .month10 { background-color: #FF5722; }
+    .month11 { background-color: #607D8B; }
+    .month12 { background-color: #E91E63; }
+</style>
 </head>
 <body>
-    <div class="calendar">
+
+<div class="calendar">
+    <div class="calendar-header">
         <div class="month">
-            <span id="month"></span>
-            <span id="year"></span>
+            <span id="prevMonth">&#10094;</span>
+            <span id="currentYear">2014</span>
+            <span id="nextMonth">&#10095;</span>
         </div>
-        <div class="days" id="calendar"></div>
     </div>
+    <div class="month">
+        <div class="month-name">January</div>
+        <div class="weekdays">
+            <div class="weekday">Sun</div>
+            <div class="weekday">Mon</div>
+            <div class="weekday">Tue</div>
+            <div class="weekday">Wed</div>
+            <div class="weekday">Thu</div>
+            <div class="weekday">Fri</div>
+            <div class="weekday">Sat</div>
+        </div>
+        <div class="days month1"></div>
+    </div>
+    <div class="month">
+        <div class="month-name">February</div>
+        <div class="weekdays">
+            <div class="weekday">Sun</div>
+            <div class="weekday">Mon</div>
+            <div class="weekday">Tue</div>
+            <div class="weekday">Wed</div>
+            <div class="weekday">Thu</div>
+            <div class="weekday">Fri</div>
+            <div class="weekday">Sat</div>
+        </div>
+        <div class="days month2"></div>
+    </div>
+    <!-- Add similar structure for other months -->
+    <!-- ... -->
+</div>
 
-    <script>
-        function generateCalendar() {
-            const now = new Date();
-            const monthNames = ["January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-            ];
-            const month = now.getMonth();
-            const year = now.getFullYear();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const firstDayOfMonth = new Date(year, month, 1).getDay();
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const currentYear = document.getElementById('currentYear').textContent;
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-            document.getElementById('month').textContent = monthNames[month];
-            document.getElementById('year').textContent = year;
+        for (let i = 0; i < 12; i++) {
+            const monthDays = document.querySelector('.month' + (i + 1));
+            const daysInMonth = new Date(currentYear, i + 1, 0).getDate();
 
-            let calendarHTML = '';
-
-            // Add empty cells for the days before the first day of the month
-            for (let i = 0; i < firstDayOfMonth; i++) {
-                calendarHTML += '<div class="day"></div>';
+            for (let j = 1; j <= daysInMonth; j++) {
+                const day = document.createElement('div');
+                day.className = 'day';
+                day.textContent = j;
+                monthDays.appendChild(day);
             }
-
-            // Add days of the month
-            for (let i = 1; i <= daysInMonth; i++) {
-                calendarHTML += '<div class="day">' + i + '</div>';
-            }
-
-            document.getElementById('calendar').innerHTML = calendarHTML;
         }
+    });
+</script>
 
-        generateCalendar();
-    </script>
 </body>
 </html>
