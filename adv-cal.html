@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Advanced Calendar</title>
+<title>Dynamic Calendar</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -39,7 +39,7 @@
     .weekdays {
         display: flex;
         justify-content: space-between;
-        background-color: #f2f2f2;
+        background-color: #a4874e;
         padding: 10px;
         border-radius: 5px;
     }
@@ -60,10 +60,17 @@
         text-align: center;
         border-bottom: 1px solid #ddd;
         border-right: 1px solid #ddd;
+        cursor: pointer;
     }
 
-    .day:last-child {
-        border-right: none;
+    .day:hover {
+        background-color: #f9f9f9;
+    }
+
+    .current-day {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 50%;
     }
 </style>
 </head>
@@ -71,11 +78,14 @@
 
 <div class="calendar">
     <div class="calendar-header">
-        <div class="month">February</div>
-        <div class="year">2024</div>
+        <div class="month">
+            <span id="prevMonth">&#10094;</span>
+            <span id="currentMonth"></span>
+            <span id="nextMonth">&#10095;</span>
+        </div>
     </div>
     <div class="month">
-        <div class="month-name">February</div>
+        <div class="month-name"></div>
         <div class="weekdays">
             <div class="weekday">Sun</div>
             <div class="weekday">Mon</div>
@@ -85,42 +95,64 @@
             <div class="weekday">Fri</div>
             <div class="weekday">Sat</div>
         </div>
-        <div class="days">
-            <div class="day">-</div>
-            <div class="day">-</div>
-            <div class="day">1</div>
-            <div class="day">2</div>
-            <div class="day">3</div>
-            <div class="day">4</div>
-            <div class="day">5</div>
-            <div class="day">6</div>
-            <div class="day">7</div>
-            <div class="day">8</div>
-            <div class="day">9</div>
-            <div class="day">10</div>
-            <div class="day">11</div>
-            <div class="day">12</div>
-            <div class="day">13</div>
-            <div class="day">14</div>
-            <div class="day">15</div>
-            <div class="day">16</div>
-            <div class="day">17</div>
-            <div class="day">18</div>
-            <div class="day">19</div>
-            <div class="day">20</div>
-            <div class="day">21</div>
-            <div class="day">22</div>
-            <div class="day">23</div>
-            <div class="day">24</div>
-            <div class="day">25</div>
-            <div class="day">26</div>
-            <div class="day">27</div>
-            <div class="day">28</div>
-            <div class="day">29</div>
-            <div class="day">30</div>
-        </div>
+        <div class="days" id="calendarDays"></div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        const calendarDays = document.getElementById('calendarDays');
+        const currentMonthElement = document.getElementById('currentMonth');
+
+        displayCalendar(currentMonth, currentYear);
+
+        function displayCalendar(month, year) {
+            currentMonthElement.textContent = months[month] + ' ' + year;
+            calendarDays.innerHTML = '';
+
+            const firstDayOfMonth = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayOfMonth; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'day';
+                calendarDays.appendChild(emptyDay);
+            }
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const day = document.createElement('div');
+                day.className = 'day';
+                day.textContent = i;
+                if (year === currentDate.getFullYear() && month === currentDate.getMonth() && i === currentDate.getDate()) {
+                    day.classList.add('current-day');
+                }
+                calendarDays.appendChild(day);
+            }
+        }
+
+        document.getElementById('prevMonth').addEventListener('click', function () {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            displayCalendar(currentMonth, currentYear);
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', function () {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            displayCalendar(currentMonth, currentYear);
+        });
+    });
+</script>
 
 </body>
 </html>
