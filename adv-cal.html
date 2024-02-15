@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Calendar</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    .calendar {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    .calendar-header {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .month {
+        margin-bottom: 20px;
+    }
+
+    .month-name {
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .weekdays {
+        display: flex;
+        justify-content: space-between;
+        background-color: #f2f2f2;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .weekday {
+        flex: 1;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .day {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+    }
+
+    .day:last-child {
+        border-right: none;
+    }
+</style>
+</head>
+<body>
+
+<div class="calendar">
+    <div class="calendar-header">
+        <div class="month">February</div>
+        <div class="year">2024</div>
+    </div>
+    <div class="month">
+        <div class="month-name">February</div>
+        <div class="weekdays">
+            <div class="weekday">Sun</div>
+            <div class="weekday">Mon</div>
+            <div class="weekday">Tue</div>
+            <div class="weekday">Wed</div>
+            <div class="weekday">Thu</div>
+            <div class="weekday">Fri</div>
+            <div class="weekday">Sat</div>
+        </div>
+        <div class="days">
+            <div class="day">-</div>
+            <div class="day">-</div>
+            <div class="day">1</div>
+            <div class="day">2</div>
+            <div class="day">3</div>
+            <div class="day">4</div>
+            <div class="day">5</div>
+            <div class="day">6</div>
+            <div class="day">7</div>
+            <div class="day">8</div>
+            <div class="day">9</div>
+            <div class="day">10</div>
+            <div class="day">11</div>
+            <div class="day">12</div>
+            <div class="day">13</div>
+            <div class="day">14</div>
+            <div class="day">15</div>
+            <div class="day">16</div>
+            <div class="day">17</div>
+            <div class="day">18</div>
+            <div class="day">19</div>
+            <div class="day">20</div>
+            <div class="day">21</div>
+            <div class="day">22</div>
+            <div class="day">23</div>
+            <div class="day">24</div>
+            <div class="day">25</div>
+            <div class="day">26</div>
+            <div class="day">27</div>
+            <div class="day">28</div>
+            <div class="day">29</div>
+            <div class="day">30</div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
