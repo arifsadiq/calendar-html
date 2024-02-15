@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2014 Advanced Calendar</title>
+<title>Dynamic Calendar</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -39,7 +39,7 @@
     .weekdays {
         display: flex;
         justify-content: space-between;
-        background-color: #f2f2f2;
+        background-color: #a4874e;
         padding: 10px;
         border-radius: 5px;
     }
@@ -67,18 +67,11 @@
         background-color: #f9f9f9;
     }
 
-    .month1 { background-color: #f44336; }
-    .month2 { background-color: #2196F3; }
-    .month3 { background-color: #4CAF50; }
-    .month4 { background-color: #FFEB3B; }
-    .month5 { background-color: #FF9800; }
-    .month6 { background-color: #9C27B0; }
-    .month7 { background-color: #00BCD4; }
-    .month8 { background-color: #8BC34A; }
-    .month9 { background-color: #795548; }
-    .month10 { background-color: #FF5722; }
-    .month11 { background-color: #607D8B; }
-    .month12 { background-color: #E91E63; }
+    .current-day {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 50%;
+    }
 </style>
 </head>
 <body>
@@ -87,12 +80,12 @@
     <div class="calendar-header">
         <div class="month">
             <span id="prevMonth">&#10094;</span>
-            <span id="currentYear">2014</span>
+            <span id="currentMonth"></span>
             <span id="nextMonth">&#10095;</span>
         </div>
     </div>
     <div class="month">
-        <div class="month-name">January</div>
+        <div class="month-name"></div>
         <div class="weekdays">
             <div class="weekday">Sun</div>
             <div class="weekday">Mon</div>
@@ -102,41 +95,62 @@
             <div class="weekday">Fri</div>
             <div class="weekday">Sat</div>
         </div>
-        <div class="days month1"></div>
+        <div class="days" id="calendarDays"></div>
     </div>
-    <div class="month">
-        <div class="month-name">February</div>
-        <div class="weekdays">
-            <div class="weekday">Sun</div>
-            <div class="weekday">Mon</div>
-            <div class="weekday">Tue</div>
-            <div class="weekday">Wed</div>
-            <div class="weekday">Thu</div>
-            <div class="weekday">Fri</div>
-            <div class="weekday">Sat</div>
-        </div>
-        <div class="days month2"></div>
-    </div>
-    <!-- Add similar structure for other months -->
-    <!-- ... -->
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const currentYear = document.getElementById('currentYear').textContent;
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        const calendarDays = document.getElementById('calendarDays');
+        const currentMonthElement = document.getElementById('currentMonth');
 
-        for (let i = 0; i < 12; i++) {
-            const monthDays = document.querySelector('.month' + (i + 1));
-            const daysInMonth = new Date(currentYear, i + 1, 0).getDate();
+        displayCalendar(currentMonth, currentYear);
 
-            for (let j = 1; j <= daysInMonth; j++) {
+        function displayCalendar(month, year) {
+            currentMonthElement.textContent = months[month] + ' ' + year;
+            calendarDays.innerHTML = '';
+
+            const firstDayOfMonth = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayOfMonth; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'day';
+                calendarDays.appendChild(emptyDay);
+            }
+
+            for (let i = 1; i <= daysInMonth; i++) {
                 const day = document.createElement('div');
                 day.className = 'day';
-                day.textContent = j;
-                monthDays.appendChild(day);
+                day.textContent = i;
+                if (year === currentDate.getFullYear() && month === currentDate.getMonth() && i === currentDate.getDate()) {
+                    day.classList.add('current-day');
+                }
+                calendarDays.appendChild(day);
             }
         }
+
+        document.getElementById('prevMonth').addEventListener('click', function () {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            displayCalendar(currentMonth, currentYear);
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', function () {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            displayCalendar(currentMonth, currentYear);
+        });
     });
 </script>
 
