@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: calendar-app
-          image: ari786/calendar:v4.0
+          image: ari786/calendar:latest
           ports:
             - containerPort: 80
 
